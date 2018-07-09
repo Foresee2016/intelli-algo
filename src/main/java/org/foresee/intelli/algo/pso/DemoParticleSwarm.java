@@ -4,6 +4,12 @@ import java.util.Arrays;
 
 import org.foresee.intelli.algo.pso.ParticleSwarm.ParticleFitnessCalculator;
 
+/**
+ * DemoParticleSwarm2里的是好理解的例子，看着算法应该是对了。
+ * 这个适应度计算函数太复杂了，我都不知道哪里是最小值。
+ * 没法调试，姑且认为是过了吧，最后适应度到0了，参数值也到0附近了，没法整。
+ * TODO：看看这个函数最小值结果是什么，验证答案。
+ */
 public class DemoParticleSwarm {
 	public static void main(String[] args) {
 		ParticleFitnessCalculator fitnessCalculator=new ParticleFitnessCalculator() {
@@ -26,7 +32,8 @@ public class DemoParticleSwarm {
 		};
 //		ParticleSwarm pso=new ParticleSwarm(fitnessCalculator, 30, 20, 60, 100, 0.9, 1, 1.2);
 		ParticleSwarm2 pso=new ParticleSwarm2(fitnessCalculator, 30, 2, 60, 100, 0.9, 1, 1.2);
-		int iterateTimes=500;
+//		int iterateTimes=500;
+		int iterateTimes=10000;
 		while(iterateTimes-->0){
 			pso.calcFitness();
 			pso.freshVX();
