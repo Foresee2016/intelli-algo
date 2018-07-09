@@ -2,7 +2,11 @@ package org.foresee.intelli.algo.pso;
 
 import java.util.Random;
 
-public class ParticleSwarm {
+import org.foresee.intelli.algo.pso.ParticleSwarm.ParticleFitnessCalculator;
+/**
+ * 改成计算最小值
+ */
+public class ParticleSwarm2 {
 	public final double vBound; // 速度上限
 	public final double xBound; // 位置上限
 	public final int particleCount;
@@ -32,7 +36,7 @@ public class ParticleSwarm {
 	 * @param c2
 	 *            加速常数2，与全局最优值有关。一般取1到4
 	 */
-	public ParticleSwarm(ParticleFitnessCalculator fitnessCalculator, int particleCount, int dimension, double vBound,
+	public ParticleSwarm2(ParticleFitnessCalculator fitnessCalculator, int particleCount, int dimension, double vBound,
 			double xBound, double w, double c1, double c2) {
 		this.fitnessCalculator = fitnessCalculator;
 		this.xBound = xBound;
@@ -50,7 +54,7 @@ public class ParticleSwarm {
 		particles = new Particle[particleCount];
 		for (int i = 0; i < particles.length; i++) {
 			particles[i] = new Particle(dimension, xBound, vBound);
-			particles[i].pBestFitness=Double.MIN_VALUE;
+			particles[i].pBestFitness=Double.MAX_VALUE;
 		}
 		gBest = new double[dimension];
 		findGBest();
@@ -59,7 +63,7 @@ public class ParticleSwarm {
 	public void calcFitness() {
 		for (int i = 0; i < particles.length; i++) {
 			double fit = fitnessCalculator.calcFitness(particles[i].x);
-			if (fit > particles[i].pBestFitness) {
+			if (fit < particles[i].pBestFitness) {
 				particles[i].pBestFitness = fit;
 				for (int d = 0; d < dimension; d++) {
 					particles[i].pBest[d] = particles[i].x[d];
@@ -73,10 +77,10 @@ public class ParticleSwarm {
 	 * 取所有粒子里最优值做全局最优值
 	 */
 	public void findGBest() {
-		gBestFitness = Double.MIN_VALUE;
+		gBestFitness = Double.MAX_VALUE;
 		int bestPos = -1;
 		for (int i = 0; i < particles.length; i++) {
-			if (particles[i].pBestFitness >= gBestFitness) {
+			if (particles[i].pBestFitness <= gBestFitness) {
 				gBestFitness = particles[i].pBestFitness;
 				bestPos = i;
 			}
@@ -110,14 +114,4 @@ public class ParticleSwarm {
 		}
 	}
 
-	public interface ParticleFitnessCalculator {
-		/**
-		 * 由外部提供计算粒子适应度的函数
-		 * 
-		 * @param xs
-		 *            粒子当前位置数组，维度为dimension指定的值
-		 * @return 粒子适应度
-		 */
-		double calcFitness(double[] x);
-	}
 }
