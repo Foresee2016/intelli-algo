@@ -4,10 +4,14 @@ import java.util.Random;
 
 public class GeneticAlgo {
 	Random random=new Random();
-	public int rouletteWheelSelection(double[] probability) {
+	/**
+	 * 轮盘赌，随机一个0到1之间的数，probability数组中概率看成顺序排列的桶，累加直到大于随机的数，放在这个桶里
+	 * @return
+	 */
+	public int roulette(double[] probability) {
 		double rand=random.nextDouble();
-		double sum=probability[0];
 		int pos=0;
+		double sum=probability[0];
 		while (sum<rand) {
 			pos++;
 			sum+=probability[pos];
@@ -15,7 +19,7 @@ public class GeneticAlgo {
 		return pos;
 	}
 	/**
-	 * 轮盘赌，给出一组适应性数值，计算总和，求每个数值占该总和的概率，返回同顺序的概率数组。
+	 * 给出一组适应性数值，计算总和，求每个数值占该总和的概率，返回同顺序的概率数组。
 	 */
 	public static double[] calcProbability(double[] fitness) {
 		double total=0;
