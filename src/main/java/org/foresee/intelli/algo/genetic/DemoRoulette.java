@@ -6,7 +6,7 @@ public class DemoRoulette {
 
 	public static void main(String[] args) {
 		// 试一试轮盘赌这个方法写对了没，结果是[101, 926, 8973]，大致是1:9:90，与适应度呈正比。
-		GeneticAlgo geneticAlgo = new GeneticAlgo();
+		GeneticAlgo geneticAlgo = new GeneticAlgo(12);
 		double[] fitness = new double[] { 1, 9, 90 };
 		double[] probability = GeneticAlgo.calcProbability(fitness);
 		int[] binCnt = new int[fitness.length];
